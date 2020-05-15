@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
 
-img = cv2.imread('imgs/usimages/car-02.png', 0)
-imgg = cv2.imread('imgs/usimages/car-02.png')
+img_path = 'imgs/usimages/car-02.png'
+img = cv2.imread(img_path, 0)
+imgg = cv2.imread(img_path)
 height, width = img.shape
 withoutnoise = cv2.medianBlur(img, 5)
 ret, bw = cv2.threshold(withoutnoise, 150, 255, cv2.THRESH_BINARY)
@@ -37,6 +38,7 @@ for contour in cnts:
             # cv2.drawContours(img, [area], 0, 0, 5)
 
 cv2.imshow('Plate', ROI)
+cv2.imwrite('plate.jpg',ROI)
 # Drawing the selected contour on the original image
 # print(NumberPlateCnt)
 # cv2.drawContours(imgg, [NumberPlateCnt], -1, (0,255,0), 3)
