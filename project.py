@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import pytesseract
 
 img_path = 'imgs/usimages/car-02.png'
 img = cv2.imread(img_path, 0)
@@ -37,8 +38,13 @@ for contour in cnts:
             #
             # cv2.drawContours(img, [area], 0, 0, 5)
 
+
+cv2.imwrite('plate.jpg', ROI)
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+ret, ROI = cv2.threshold(ROI, 150, 255, cv2.THRESH_BINARY)
+text = pytesseract.image_to_string(ROI, config='-l eng --oem 1 --psm 7 tessedit_char_whitelist=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
+print("Plate number is: ", text)
 cv2.imshow('Plate', ROI)
-cv2.imwrite('plate.jpg',ROI)
 # Drawing the selected contour on the original image
 # print(NumberPlateCnt)
 # cv2.drawContours(imgg, [NumberPlateCnt], -1, (0,255,0), 3)
